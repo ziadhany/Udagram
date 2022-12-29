@@ -15,6 +15,16 @@ An editor would be helpful to visualize the image as well as code. Download the 
 ##### 3. An account on www.lucidchart.com
 A free user-account on [www.lucidchart.com](www.lucidchart.com) is required to be able to draw the web app architecture diagrams for AWS.
 
+### How to run the project?
+You can run the project in two easy steps:
+```bash
+# Ensure that the AWS CLI is configured before runniing the command below
+# Create the infrastructure
+# Check the region in the create.sh file
+./supporting_material/create.sh myProjectStack project_starter/my_infrastructure.yml project_starter/my_infrastructure-parameters.json 
+# Check the region in the update.sh file
+./supporting_material/update.sh myProjectStack project_starter/my_infrastructure.yml project_starter/my_infrastructure-parameters.json 
+```
 
 ### How to run the supporting material?
 You can run the supporting material in two easy steps:
