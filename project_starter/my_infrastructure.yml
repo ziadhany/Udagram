@@ -32,6 +32,12 @@ Parameters:
         Type: String
         Default: 10.0.3.0/24
 
+    InstanceTypeParameter:
+        Description: Enter t2.micro, m1.small, or m1.large. Default is t2.micro
+        Type: String
+        Default: t2.micro
+
+
 Resources: 
     MainVPCN: 
         Type: AWS::EC2::VPC
@@ -219,8 +225,8 @@ Resources:
                 - 
                     Effect: Allow
                     Action: 
-                    -   s3:List*
                     -   s3:Get*
+                    -   s3:List*
                     Resource: 
                     -   arn:aws:s3:::udagram-bucket-ziadhany
                     -   arn:aws:s3:::udagram-bucket-ziadhany/*
@@ -272,20 +278,20 @@ Resources:
             UserData:
                 Fn::Base64: !Sub |
                     #!/bin/bash
-                    sudo apt-get update -y
-                    sudo apt-get install -y unzip awscli 
-                    sudo apt-get install -y apache2 
-                    sudo systemctl start apache2
-                    sudo systemctl enable apache2
+                    apt update -y
+                    apt install -y apache2
+                    apt install -y wget
+                    systemctl start apache2
+                    systemctl enable apache2
                     cd /var/www/html
-                    echo "it works! Udagram, Udacity" > index.html
-                    sudo aws s3 cp s3://udagram-bucket-ziadhany/mywebsite.zip .
-                    sudo unzip -o mywebsite.zip
+                    sudo rm index.html
+                    sudo wget https://udagram-bucket-ziadhany.s3.amazonaws.com/index.html
+                    sudo chmod 777 index.html
             ImageId: ami-0574da719dca65348
             IamInstanceProfile: !Ref InstanceProfileS3EC2
             SecurityGroups:
             -   Ref: EC2SecurityGroup
-            InstanceType: t2.micro
+            InstanceType: !Ref InstanceTypeParameter
             BlockDeviceMappings:
             -   DeviceName: "/dev/sdk"
                 Ebs:
