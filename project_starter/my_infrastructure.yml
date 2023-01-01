@@ -278,15 +278,13 @@ Resources:
             UserData:
                 Fn::Base64: !Sub |
                     #!/bin/bash
-                    apt update -y
-                    apt install -y apache2
-                    apt install -y wget
-                    systemctl start apache2
-                    systemctl enable apache2
+                    apt-get update -y
+                    apt-get install awscli -y
+                    apt-get install apache2 -y
+                    systemctl start apache2.service
                     cd /var/www/html
-                    sudo rm index.html
-                    sudo wget https://udagram-bucket-ziadhany.s3.amazonaws.com/index.html
-                    sudo chmod 777 index.html
+                    sudo su
+                    echo "it works! Udagram, Udacity" > index.html 
             ImageId: ami-0574da719dca65348
             IamInstanceProfile: !Ref InstanceProfileS3EC2
             SecurityGroups:
